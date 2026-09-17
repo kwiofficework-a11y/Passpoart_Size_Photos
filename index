@@ -1,0 +1,1915 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>النور پرنٹنگ پوائنٹ اینڈ آن لائن سروسز - Passport Photo &amp; Print Layout Studio</title>
+<style>
+  :root{
+    --ink-950:#11151B;
+    --ink-900:#1A1F27;
+    --ink-800:#232A34;
+    --ink-line:#333B47;
+    --stock:#E9E5DA;
+    --cyan:#4FB8C4;
+    --cyan-dim:#2C6E76;
+    --cyan-ink:#08221F;
+    --signal:#D1483C;
+    --text:#E7E9ED;
+    --text-dim:#8892A0;
+    --mono: ui-monospace, "SF Mono", "Cascadia Mono", Menlo, Consolas, monospace;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --reg-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='8' fill='none' stroke='%234FB8C4' stroke-width='2'/%3E%3Cline x1='12' y1='0' x2='12' y2='24' stroke='%234FB8C4' stroke-width='2'/%3E%3Cline x1='0' y1='12' x2='24' y2='12' stroke='%234FB8C4' stroke-width='2'/%3E%3C/svg%3E");
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:var(--ink-950);color:var(--text);font-family:var(--sans);font-size:14px;line-height:1.45;}
+  h1,h2,h3{margin:0;font-weight:600;}
+  button{font-family:inherit;cursor:pointer;}
+  input[type="text"], input[type="number"], select{
+    font-family:inherit;background:var(--ink-800);border:1px solid var(--ink-line);color:var(--text);
+    border-radius:4px;padding:6px 8px;font-size:13px;width:100%;
+  }
+  input:focus, select:focus, button:focus-visible{outline:2px solid var(--cyan); outline-offset:1px;}
+  select{ -webkit-appearance:none; appearance:none; }
+
+  .app{ display:grid; grid-template-columns: 342px 1fr; min-height:100vh; }
+
+  @media (prefers-reduced-motion: no-preference){
+    .app{ animation: settle .5s ease-out; }
+    @keyframes settle{ from{ opacity:0; transform:translateY(6px); } to{ opacity:1; transform:none; } }
+  }
+
+  /* ---------- Sidebar ---------- */
+  .sidebar{ background:var(--ink-900); border-right:1px solid var(--ink-line); overflow-y:auto; max-height:100vh; padding:0 0 40px; }
+  .brand{ padding:20px 18px 16px; border-bottom:1px solid var(--ink-line); position:sticky; top:0; background:var(--ink-900); z-index:5; }
+  .brand .mark{ display:flex; align-items:center; gap:10px; }
+  .brand .regmark{ width:20px; height:20px; background-image:var(--reg-icon); background-size:contain; flex-shrink:0; }
+  .brand h1{ font-size:16px; letter-spacing:.2px; color:var(--text); }
+  .brand p{ margin:4px 0 0; color:var(--text-dim); font-size:11.5px; padding-left:30px; }
+
+  .section{ padding:17px 18px; border-bottom:1px solid var(--ink-line); }
+  .section h2{ font-size:12.5px; color:var(--cyan); margin-bottom:13px; display:flex; align-items:center; gap:7px; letter-spacing:.1px; }
+  .section h2::before{ content:""; width:11px; height:11px; background-image:var(--reg-icon); background-size:contain; display:inline-block; flex-shrink:0; }
+  .field{ margin-bottom:12px; }
+  .field:last-child{ margin-bottom:0; }
+  .field label{ display:flex; justify-content:space-between; align-items:baseline; font-size:12px; color:var(--text-dim); margin-bottom:5px; }
+  .field label .val{ font-family:var(--mono); color:var(--cyan); font-size:12px; }
+  .row2{ display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+  .hint{ font-size:11px; color:var(--text-dim); margin-top:6px; }
+  .divider{ border:none; border-top:1px dashed var(--ink-line); margin:14px 0; }
+  .subhead{ font-size:11px; color:var(--text-dim); margin:0 0 9px; text-transform:none; }
+
+  input[type="range"]{ width:100%; accent-color:var(--cyan); height:4px; background:transparent; }
+
+  .radio-group{ display:flex; gap:6px; flex-wrap:wrap; }
+  .toggle-btn{
+    flex:1; text-align:center; padding:7px 6px; border-radius:5px; border:1px solid var(--ink-line);
+    background:var(--ink-800); color:var(--text-dim); font-size:12px; transition:background .12s, color .12s, border-color .12s;
+  }
+  .toggle-btn.active{ background:var(--cyan); color:var(--cyan-ink); border-color:var(--cyan); font-weight:600; }
+
+  .swatches{ display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
+  .swatch{ width:28px; height:28px; border-radius:50%; border:2px solid transparent; cursor:pointer; box-shadow:inset 0 0 0 1px rgba(0,0,0,.15); }
+  .swatch.active{ border-color:var(--cyan); transform:scale(1.08); }
+  .swatch-custom{ display:flex; align-items:center; gap:6px; }
+  input[type="color"]{ width:28px; height:28px; padding:0; border:none; background:none; border-radius:50%; overflow:hidden; cursor:pointer; }
+
+  .switch-row{ display:flex; align-items:center; justify-content:space-between; }
+  .switch-row .lbl{ color:var(--text-dim); font-size:12px; }
+  .switch{ position:relative; width:38px; height:20px; flex-shrink:0; }
+  .switch input{ opacity:0; width:0; height:0; }
+  .switch .slider{ position:absolute; inset:0; background:var(--ink-line); border-radius:20px; transition:.15s; cursor:pointer; }
+  .switch .slider::before{ content:""; position:absolute; width:14px; height:14px; left:3px; top:3px; background:var(--text-dim); border-radius:50%; transition:.15s; }
+  .switch input:checked + .slider{ background:var(--cyan-dim); }
+  .switch input:checked + .slider::before{ transform:translateX(18px); background:var(--cyan); }
+  .sub-controls{ margin-top:10px; padding-top:10px; border-top:1px dashed var(--ink-line); display:none; }
+  .sub-controls.show{ display:block; }
+
+  .lcd{ font-family:var(--mono); font-size:12.5px; background:var(--ink-950); border:1px solid var(--ink-line); border-radius:5px; padding:9px 11px; color:var(--cyan); text-shadow:0 0 6px rgba(79,184,196,.45); }
+
+  .btn{ display:block; width:100%; text-align:center; padding:11px 10px; border-radius:6px; font-size:13px; font-weight:600; border:1px solid transparent; transition:background .12s, border-color .12s, color .12s; }
+  .btn-primary{ background:var(--cyan); color:var(--cyan-ink); }
+  .btn-primary:hover{ background:#6ec7d1; }
+  .btn-outline{ background:transparent; border-color:var(--cyan-dim); color:var(--cyan); }
+  .btn-outline:hover{ background:rgba(79,184,196,.12); }
+  .btn-ghost{ background:transparent; border-color:var(--ink-line); color:var(--text-dim); }
+  .btn-ghost:hover{ color:var(--signal); border-color:var(--signal); }
+  .btn-row{ display:flex; gap:8px; }
+  .btn-row .btn{ flex:1; }
+
+  .warning{ background:rgba(209,72,60,.15); border:1px solid var(--signal); color:#f4b7b0; border-radius:6px; padding:10px 12px; font-size:12.5px; margin:14px 18px 0; }
+  .warning[hidden]{ display:none; }
+
+  /* ---------- Main ---------- */
+  .main{ padding:26px 30px 60px; overflow-y:auto; max-height:100vh; }
+
+  .ticket{ display:flex; gap:12px; margin-bottom:22px; flex-wrap:wrap; }
+  .ticket .lcd{ flex:1; min-width:220px; display:flex; flex-direction:column; gap:3px; }
+  .ticket .lcd .tag{ font-family:var(--sans); color:var(--text-dim); font-size:10.5px; text-shadow:none; }
+
+  .panel{ background:var(--ink-900); border:1px solid var(--ink-line); border-radius:10px; padding:18px 20px 22px; margin-bottom:22px; }
+  .panel-head{ margin-bottom:14px; }
+  .panel-head h3{ font-size:13px; color:var(--text-dim); letter-spacing:.3px; font-weight:600; }
+
+  .slotnav{ display:flex; gap:8px; align-items:center; margin-bottom:14px; flex-wrap:wrap; }
+  .slotnav .btn{ width:auto; padding:8px 14px; }
+  .slotnav .lcd{ padding:8px 14px; }
+  .slotnav .repeat-field{ display:flex; align-items:center; gap:6px; color:var(--text-dim); font-size:12px; white-space:nowrap; }
+  .slotnav .repeat-field input{ width:48px; text-align:center; }
+  .slotnav .step-btn{ width:30px; height:30px; padding:0; flex:0 0 auto; font-size:16px; line-height:1; }
+
+  .pager{ display:flex; align-items:center; justify-content:center; gap:10px; margin-top:14px; }
+  .pager .btn{ width:auto; padding:8px 14px; }
+  .pager .lcd{ padding:8px 14px; }
+  .slotnav .btn[disabled]{ opacity:.4; cursor:not-allowed; }
+
+  .editor-wrap{ display:flex; gap:24px; align-items:flex-start; flex-wrap:wrap; }
+  .editor-stage{
+    background:
+      linear-gradient(45deg, #202631 25%, transparent 25%, transparent 75%, #202631 75%),
+      linear-gradient(45deg, #202631 25%, transparent 25%, transparent 75%, #202631 75%),
+      var(--ink-950);
+    background-size:16px 16px; background-position:0 0, 8px 8px;
+    border-radius:8px; padding:14px; display:flex; align-items:center; justify-content:center; flex-shrink:0;
+    border:1px solid var(--ink-line);
+  }
+  #editorCanvas{ max-width:300px; max-height:400px; width:auto; height:auto; display:block; border-radius:2px; box-shadow:0 6px 20px rgba(0,0,0,.5); touch-action:none; cursor:grab; }
+  #editorCanvas:active{ cursor:grabbing; }
+  .editor-side{ flex:1; min-width:220px; }
+  .editor-side ul{ margin:0; padding-left:18px; color:var(--text-dim); font-size:12.5px; }
+  .editor-side li{ margin-bottom:6px; }
+  .editor-side .btn{ margin-top:14px; }
+
+  .sheet-wrap{ background:var(--ink-950); border-radius:8px; padding:20px; display:flex; justify-content:center; border:1px solid var(--ink-line); }
+  #pageCanvas{ width:100%; max-width:520px; height:auto; display:block; background:var(--stock); box-shadow:0 8px 30px rgba(0,0,0,.55); }
+
+  footer{ text-align:center; color:var(--text-dim); font-size:11.5px; padding:10px 0 30px; }
+
+  @media (min-width: 1400px){
+    .app{ grid-template-columns: 380px 1fr; }
+    #editorCanvas{ max-width:380px; max-height:480px; }
+    #pageCanvas{ max-width:680px; }
+    .main{ padding:32px 46px 60px; }
+  }
+
+  @media (max-width: 900px){
+    .app{ grid-template-columns: 1fr; }
+    .sidebar{ max-height:none; border-right:none; border-bottom:1px solid var(--ink-line); }
+    .main{ max-height:none; padding:20px 16px 50px; }
+    .ticket{ flex-direction:column; }
+    #editorCanvas{ max-width:min(78vw, 300px); }
+  }
+
+  @media (max-width: 560px){
+    html,body{ font-size:13.5px; }
+    .section{ padding:15px 14px; }
+    .row2{ grid-template-columns:1fr; }
+    .brand{ padding:16px 14px 14px; }
+    .btn{ padding:12px 10px; }
+    .switch{ width:42px; height:23px; }
+    .switch .slider::before{ width:16px; height:16px; }
+    .switch input:checked + .slider::before{ transform:translateX(19px); }
+    .swatch{ width:32px; height:32px; }
+    input[type="color"]{ width:32px; height:32px; }
+    .toggle-btn{ padding:9px 6px; }
+    .slotnav{ justify-content:space-between; }
+    .slotnav .repeat-field{ order:1; flex:1 1 100%; justify-content:space-between; }
+    .panel{ padding:15px 14px 18px; border-radius:8px; }
+    .editor-stage{ padding:10px; width:100%; }
+    .sheet-wrap{ padding:12px; }
+  }
+
+  @media print{
+    body *{ visibility:hidden; }
+    #pageCanvas, #pageCanvas *{ visibility:visible; }
+    #pageCanvas{ position:fixed; top:0; left:0; width:100vw; height:auto; box-shadow:none; }
+    @page{ margin:0; size:auto; }
+  }
+</style>
+</head>
+<body>
+
+<div class="app">
+  <!-- ============ SIDEBAR ============ -->
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="mark"><span class="regmark"></span><h1>النور پرنٹنگ پوائنٹ اینڈ آن لائن سروسز</h1></div>
+      <p>300&nbsp;DPI print-ready photo &amp; sheet layout generator</p>
+    </div>
+
+    <!-- Document type & size -->
+    <div class="section">
+      <h2>Document Type &amp; Size</h2>
+      <div class="field">
+        <div class="radio-group">
+          <button class="toggle-btn active" data-doctype="photo">Passport / Visa Photo</button>
+          <button class="toggle-btn" data-doctype="cnic">CNIC / ID Card Copy</button>
+        </div>
+        <p class="hint" id="docTypeHint">Standard passport / visa photo sizes below.</p>
+      </div>
+      <div class="field">
+        <label>Size (mm, 300 DPI)</label>
+        <select id="photoPreset">
+          <option value="pk">Pakistan Passport — 35 × 45 mm</option>
+          <option value="us">US Visa / DV Lottery — 51 × 51 mm (2×2 in)</option>
+          <option value="cn">China Visa — 33 × 48 mm</option>
+          <option value="sa">Saudi Arabia Visa — 40 × 60 mm</option>
+          <option value="cnic">CNIC / ID Card — 85.6 × 54 mm</option>
+          <option value="custom">Custom size…</option>
+        </select>
+      </div>
+      <div class="sub-controls" id="photoCustomGroup">
+        <div class="row2">
+          <div class="field"><label>Width (mm)</label><input type="number" id="photoCustomW" min="10" max="150" step="0.5" value="35"></div>
+          <div class="field"><label>Height (mm)</label><input type="number" id="photoCustomH" min="10" max="150" step="0.5" value="45"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Upload -->
+    <div class="section">
+      <h2>Source Photos</h2>
+      <div class="field">
+        <label>Sheet contents</label>
+        <div class="radio-group">
+          <button class="toggle-btn active" data-sheetmode="same">Same photo</button>
+          <button class="toggle-btn" data-sheetmode="multi">Different per slot</button>
+        </div>
+      </div>
+      <div class="field" id="genericUploadField">
+        <input type="file" id="fileInput" accept="image/*" multiple style="padding:8px 0;background:none;border:none;">
+        <p class="hint" id="sheetModeHint">One photo, repeated to fill the sheet.</p>
+      </div>
+      <div class="field" id="cnicUploadField" style="display:none;">
+        <button class="btn btn-primary" type="button" id="uploadPairBtn">Upload Front + Back (both)</button>
+        <p class="hint">Pick 2 photos at once — the 1st becomes Front, the 2nd becomes Back.</p>
+        <div class="row2" style="margin-top:12px;">
+          <div>
+            <button class="btn btn-outline" type="button" id="uploadFrontBtn">Front only</button>
+            <p class="hint" id="frontStatus">Not uploaded</p>
+          </div>
+          <div>
+            <button class="btn btn-outline" type="button" id="uploadBackBtn">Back only</button>
+            <p class="hint" id="backStatus">Not uploaded</p>
+          </div>
+        </div>
+        <input type="file" id="frontFileInput" accept="image/*" style="display:none;">
+        <input type="file" id="backFileInput" accept="image/*" style="display:none;">
+        <input type="file" id="cnicPairFileInput" accept="image/*" multiple style="display:none;">
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-ghost" id="resetPosBtn">Auto fit &amp; crop</button>
+      </div>
+    </div>
+
+    <!-- Image adjustments -->
+    <div class="section">
+      <h2>Image Adjustments</h2>
+      <div class="field"><label>Zoom <span class="val" id="zoomVal">100%</span></label><input type="range" id="zoomSlider" min="50" max="400" value="100"></div>
+      <div class="field"><label>Brightness <span class="val" id="brightVal">100%</span></label><input type="range" id="brightSlider" min="50" max="150" value="100"></div>
+      <div class="field"><label>Contrast <span class="val" id="contrastVal">100%</span></label><input type="range" id="contrastSlider" min="50" max="150" value="100"></div>
+      <div class="field"><label>Saturation <span class="val" id="satVal">100%</span></label><input type="range" id="satSlider" min="0" max="200" value="100"></div>
+      <div class="switch-row" style="margin-top:12px;">
+        <span class="lbl">Auto enhance (auto-levels)</span>
+        <label class="switch"><input type="checkbox" id="autoEnhanceToggle"><span class="slider"></span></label>
+      </div>
+      <div class="switch-row" style="margin-top:10px;">
+        <span class="lbl">Black &amp; white (grayscale)</span>
+        <label class="switch"><input type="checkbox" id="bwToggle"><span class="slider"></span></label>
+      </div>
+      <p class="hint">Drag the photo directly on the canvas to reposition. Scroll / pinch to zoom.</p>
+    </div>
+
+    <!-- Background -->
+    <div class="section">
+      <h2>Background Colour</h2>
+      <div class="field">
+        <div class="swatches">
+          <button class="swatch active" data-color="#87CEEB" style="background:#87CEEB" title="Sky Blue"></button>
+          <button class="swatch" data-color="#00BFFF" style="background:#00BFFF" title="Deep Sky Blue"></button>
+          <button class="swatch" data-color="#FFFFFF" style="background:#FFFFFF" title="White"></button>
+          <button class="swatch" data-color="#E0E0E0" style="background:#E0E0E0" title="Light Grey"></button>
+          <div class="swatch-custom">
+            <input type="color" id="bgColorPicker" value="#87CEEB" title="Custom colour">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Marks & stamp -->
+    <div class="section">
+      <h2>Marks &amp; Stamp</h2>
+
+      <p class="subhead">Cut border</p>
+      <div class="switch-row">
+        <span class="lbl">Border around each photo</span>
+        <label class="switch"><input type="checkbox" id="cutBorderToggle" checked><span class="slider"></span></label>
+      </div>
+      <div class="sub-controls show" id="cutBorderGroup">
+        <div class="row2" style="margin-top:10px;">
+          <div class="field"><label>Border colour</label><input type="color" id="cutBorderColor" value="#999999" style="border-radius:4px;width:100%;height:32px;"></div>
+          <div class="field"><label>Width (mm) <span class="val" id="cutBorderWidthVal">0.3</span></label><input type="range" id="cutBorderWidth" min="0.1" max="2" step="0.1" value="0.3"></div>
+        </div>
+      </div>
+
+      <hr class="divider">
+
+      <p class="subhead">Corner crop marks</p>
+      <div class="switch-row">
+        <span class="lbl">Cutter registration marks</span>
+        <label class="switch"><input type="checkbox" id="cropMarksToggle"><span class="slider"></span></label>
+      </div>
+      <div class="sub-controls" id="cropMarksGroup">
+        <div class="row2" style="margin-top:10px;">
+          <div class="field"><label>Mark colour</label><input type="color" id="cropMarkColor" value="#000000" style="border-radius:4px;width:100%;height:32px;"></div>
+          <div class="field"><label>Length (mm) <span class="val" id="cropMarkLenVal">4</span></label><input type="range" id="cropMarkLen" min="2" max="10" step="0.5" value="4"></div>
+        </div>
+      </div>
+
+      <div class="switch-row" style="margin-top:12px;">
+        <span class="lbl">Full-sheet trim guides</span>
+        <label class="switch"><input type="checkbox" id="trimLinesToggle"><span class="slider"></span></label>
+      </div>
+      <div class="sub-controls" id="trimLinesGroup">
+        <div class="field" style="margin-top:10px;"><label>Guide colour</label><input type="color" id="trimLineColor" value="#bbbbbb" style="border-radius:4px;width:100%;height:32px;"></div>
+      </div>
+
+      <hr class="divider">
+
+      <p class="subhead">Stamp label / date</p>
+      <div class="switch-row">
+        <span class="lbl">Print label on photo</span>
+        <label class="switch"><input type="checkbox" id="stampToggle"><span class="slider"></span></label>
+      </div>
+      <div class="sub-controls" id="stampGroup">
+        <div class="field" style="margin-top:10px;"><label>Label text</label><input type="text" id="stampText" placeholder="Name — DD/MM/YYYY" value=""></div>
+        <div class="row2">
+          <div class="field"><label>Font size <span class="val" id="stampFontVal">22px</span></label><input type="range" id="stampFontSlider" min="10" max="60" value="22"></div>
+          <div class="field"><label>Strip opacity <span class="val" id="stampOpacityVal">75%</span></label><input type="range" id="stampOpacitySlider" min="20" max="100" value="75"></div>
+        </div>
+        <div class="row2">
+          <div class="field"><label>Text colour</label><input type="color" id="stampColor" value="#000000" style="border-radius:4px;width:100%;height:32px;"></div>
+          <div class="field"><label>Strip colour</label><input type="color" id="stampBgColor" value="#ffffff" style="border-radius:4px;width:100%;height:32px;"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sheet & page setup -->
+    <div class="section">
+      <h2>Sheet &amp; Page Setup</h2>
+      <div class="field">
+        <label>Paper size</label>
+        <select id="paperType">
+          <option value="4x6">4 × 6 inches (Photo Paper)</option>
+          <option value="a4">A4 Sheet (Printing Paper)</option>
+          <option value="single">Single Photo Only</option>
+          <option value="custom">Custom paper size…</option>
+        </select>
+      </div>
+      <div class="sub-controls" id="paperCustomGroup">
+        <div class="row2">
+          <div class="field"><label>Width (mm)</label><input type="number" id="paperCustomW" min="20" max="1000" step="1" value="152.4"></div>
+          <div class="field"><label>Height (mm)</label><input type="number" id="paperCustomH" min="20" max="1000" step="1" value="101.6"></div>
+        </div>
+      </div>
+      <div class="field" id="orientationField">
+        <label>Orientation</label>
+        <div class="radio-group">
+          <button class="toggle-btn active" data-orientation="portrait">Portrait</button>
+          <button class="toggle-btn" data-orientation="landscape">Landscape</button>
+        </div>
+      </div>
+      <div class="row2" id="marginGapField">
+        <div class="field"><label>Page margin (mm) <span class="val" id="marginVal">5</span></label><input type="range" id="marginSlider" min="0" max="25" step="0.5" value="5"></div>
+        <div class="field"><label>Cut gap (mm) <span class="val" id="gapVal">3</span></label><input type="range" id="gapSlider" min="0" max="20" step="0.5" value="3"></div>
+      </div>
+      <div class="row2" id="gridAlignField">
+        <div class="field">
+          <label>Horizontal align</label>
+          <div class="radio-group">
+            <button class="toggle-btn" data-alignx="left">Left</button>
+            <button class="toggle-btn active" data-alignx="center">Center</button>
+            <button class="toggle-btn" data-alignx="right">Right</button>
+          </div>
+        </div>
+        <div class="field">
+          <label>Vertical align</label>
+          <div class="radio-group">
+            <button class="toggle-btn" data-aligny="top">Top</button>
+            <button class="toggle-btn active" data-aligny="middle">Middle</button>
+            <button class="toggle-btn" data-aligny="bottom">Bottom</button>
+          </div>
+        </div>
+      </div>
+      <div class="lcd" id="gridReadout" style="margin-top:12px;">Calculating layout…</div>
+    </div>
+
+    <div class="warning" id="warningBox" hidden></div>
+
+    <!-- Output -->
+    <div class="section">
+      <h2>Output</h2>
+      <div class="btn-row">
+        <button class="btn btn-primary" id="downloadBtn">Download HD PNG (300 DPI)</button>
+      </div>
+      <div class="btn-row" style="margin-top:8px;">
+        <button class="btn btn-outline" id="downloadPdfBtn">Download PDF (300 DPI)</button>
+      </div>
+      <div class="btn-row" style="margin-top:8px;">
+        <button class="btn btn-outline" id="printBtn">Print sheet (Ctrl+P)</button>
+      </div>
+      <div class="btn-row" style="margin-top:8px;">
+        <button class="btn btn-ghost" id="resetAllBtn">Reset all settings</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ============ MAIN ============ -->
+  <main class="main">
+    <div class="ticket">
+      <div class="lcd"><span class="tag">Frame</span><span id="photoResMeta">35×45mm · 413×531px @300dpi</span></div>
+      <div class="lcd"><span class="tag">Sheet</span><span id="pageResMeta"></span></div>
+    </div>
+
+    <section class="panel">
+      <div class="panel-head">
+        <h3>Frame — drag to position, scroll to zoom</h3>
+      </div>
+      <div class="slotnav" id="slotNav" style="display:none;">
+        <button class="btn btn-ghost" id="prevSlotBtn">‹</button>
+        <span class="lcd" id="slotIndicator">1 / 1</span>
+        <button class="btn btn-ghost" id="nextSlotBtn">›</button>
+        <label class="repeat-field">Copies
+          <button class="btn btn-ghost step-btn" type="button" id="repeatMinusBtn">−</button>
+          <input type="number" id="repeatInput" min="0" max="300" value="1">
+          <button class="btn btn-ghost step-btn" type="button" id="repeatPlusBtn">+</button>
+        </label>
+        <button class="btn btn-outline" id="addQueueBtn">+ Add new</button>
+        <button class="btn btn-ghost" id="removeQueueBtn">Remove</button>
+      </div>
+      <div class="editor-wrap">
+        <div class="editor-stage">
+          <canvas id="editorCanvas" width="413" height="531"></canvas>
+        </div>
+        <div class="editor-side">
+          <ul>
+            <li>Drag on the photo to reposition it inside the frame; scroll or pinch to zoom.</li>
+            <li>New photos are auto-cropped (trimming plain borders) and auto-fit to the frame — use Auto fit &amp; crop to redo this any time.</li>
+            <li>In "Different per slot" mode, use Prev / Next above to pick which slot you're editing.</li>
+            <li>Brightness, background, guides and stamp apply globally; position, zoom and crop are per-slot.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <h3>Sheet — exact print layout</h3>
+      </div>
+      <div class="sheet-wrap">
+        <canvas id="pageCanvas" width="1200" height="1800"></canvas>
+      </div>
+      <div class="pager" id="pager" style="display:none;">
+        <button class="btn btn-ghost" id="pagePrevBtn">‹ Page</button>
+        <span class="lcd" id="pageIndicator">1 / 1</span>
+        <button class="btn btn-ghost" id="pageNextBtn">Page ›</button>
+      </div>
+    </section>
+
+    <footer>Runs entirely in your browser · nothing is uploaded to a server</footer>
+  </main>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ---------------------------------------------------------------
+     Constants & presets
+  ----------------------------------------------------------------*/
+  const DPI = 300;
+  const mmToPx = mm => Math.round(mm / 25.4 * DPI);
+
+  const PHOTO_PRESETS = {
+    pk:     { w:35, h:45 },
+    us:     { w:51, h:51 },
+    cn:     { w:33, h:48 },
+    sa:     { w:40, h:60 },
+    cnic:   { w:85.6, h:53.98 },
+    custom: { w:35, h:45 }
+  };
+
+  const PAPER_SIZES = {
+    "4x6": { w:101.6, h:152.4 },
+    "a4":  { w:210,   h:297   }
+  };
+
+  /* ---------------------------------------------------------------
+     State
+  ----------------------------------------------------------------*/
+  const state = {
+    sheetMode: "same",           // "same" | "multi"
+    queue: [ { image:null, repeat:1, zoom:1, offsetX:0, offsetY:0, crop:null } ],
+    activeQueueIndex: 0,
+
+    // CNIC front+back groups. Each group = one physical card (one person).
+    // In "same" mode there is always exactly one group; in "multi" mode
+    // the user can add more groups (more people), each its own Front+Back
+    // pair with its own copies count.
+    cnicGroups: [ {
+      front:{ image:null, zoom:1, offsetX:0, offsetY:0, crop:null },
+      back: { image:null, zoom:1, offsetX:0, offsetY:0, crop:null },
+      repeat: 1
+    } ],
+    cnicActiveGroup: 0,
+    cnicActiveSide: "front",     // "front" | "back"
+
+    brightness: 100, contrast: 100, saturation: 100,
+    autoEnhance: false,
+    blackAndWhite: false,
+
+    bgColor: "#87CEEB",
+
+    stampEnabled: false, stampText: "",
+    stampFontSize: 22, stampOpacity: 0.75,
+    stampColor: "#000000", stampBgColor: "#ffffff",
+
+    cutBorder: true, cutBorderColor: "#999999", cutBorderWidthMm: 0.3,
+    cropMarks: false, cropMarkColor: "#000000", cropMarkLenMm: 4,
+    trimLines: false, trimLineColor: "#bbbbbb",
+
+    photoPresetKey: "pk",
+    photoW: 35, photoH: 45,
+
+    paperType: "4x6",
+    paperCustomW: 152.4, paperCustomH: 101.6,
+    orientation: "portrait",
+    marginMm: 5, gapMm: 3,
+    gridAlignX: "center", gridAlignY: "middle",
+    currentPage: 0
+  };
+
+  /* ---------------------------------------------------------------
+     DOM refs
+  ----------------------------------------------------------------*/
+  const editorCanvas = document.getElementById("editorCanvas");
+  const editorCtx = editorCanvas.getContext("2d");
+  const pageCanvas = document.getElementById("pageCanvas");
+  const pageCtx = pageCanvas.getContext("2d", { willReadFrequently:false });
+  const warningBox = document.getElementById("warningBox");
+  const gridReadout = document.getElementById("gridReadout");
+  const photoResMeta = document.getElementById("photoResMeta");
+  const pageResMeta = document.getElementById("pageResMeta");
+  const slotNav = document.getElementById("slotNav");
+  const slotIndicator = document.getElementById("slotIndicator");
+  const repeatInput = document.getElementById("repeatInput");
+  const addQueueBtn = document.getElementById("addQueueBtn");
+  const removeQueueBtn = document.getElementById("removeQueueBtn");
+  const pager = document.getElementById("pager");
+  const pageIndicator = document.getElementById("pageIndicator");
+  const queueCanvasPool = [];
+  const emptyCanvas = document.createElement("canvas");
+
+  /* ---------------------------------------------------------------
+     Helpers
+  ----------------------------------------------------------------*/
+  function clamp(v,min,max){ return Math.min(max, Math.max(min, v)); }
+
+  function hexToRgb(hex){
+    hex = hex.replace("#","");
+    if(hex.length===3) hex = hex.split("").map(c=>c+c).join("");
+    const num = parseInt(hex,16);
+    return { r:(num>>16)&255, g:(num>>8)&255, b:num&255 };
+  }
+  function hexToRgba(hex, alpha){
+    const {r,g,b} = hexToRgb(hex);
+    return `rgba(${r},${g},${b},${alpha})`;
+  }
+
+  let rafPending = false;
+  function requestUpdate(fn){
+    if(rafPending) return;
+    rafPending = true;
+    requestAnimationFrame(()=>{ fn(); rafPending = false; });
+  }
+
+  function activeItem(){
+    if(isCnicMode()){
+      const g = state.cnicGroups[state.cnicActiveGroup];
+      return g ? g[state.cnicActiveSide] : null;
+    }
+    return state.queue[state.activeQueueIndex];
+  }
+  function isCnicMode(){ return state.photoPresetKey === "cnic"; }
+
+  function newCnicGroup(){
+    return {
+      front:{ image:null, zoom:1, offsetX:0, offsetY:0, crop:null },
+      back: { image:null, zoom:1, offsetX:0, offsetY:0, crop:null },
+      repeat: 1
+    };
+  }
+  // Keeps the CNIC groups list valid: at least one group always; in "same"
+  // mode (one physical card repeated to fill the sheet) exactly one group.
+  function ensureCnicGroups(){
+    if(state.cnicGroups.length < 1) state.cnicGroups.push(newCnicGroup());
+    if(state.sheetMode === "same" && state.cnicGroups.length > 1){
+      state.cnicGroups.length = 1;
+    }
+    if(state.cnicActiveGroup >= state.cnicGroups.length) state.cnicActiveGroup = state.cnicGroups.length - 1;
+    if(state.cnicActiveGroup < 0) state.cnicActiveGroup = 0;
+  }
+
+  // Detects plain-colour margins around the subject and returns a tighter
+  // crop rect in source-image pixel coordinates, or null if nothing to trim.
+  function computeAutoCrop(img){
+    const sw = Math.min(img.width, 300);
+    const sh = Math.round(sw * img.height / img.width);
+    if(sw < 4 || sh < 4) return null;
+    const c = document.createElement("canvas");
+    c.width = sw; c.height = sh;
+    const cx = c.getContext("2d");
+    cx.drawImage(img, 0, 0, sw, sh);
+    const d = cx.getImageData(0, 0, sw, sh).data;
+
+    function rowVariance(y){
+      let sum=0, sumsq=0;
+      for(let x=0;x<sw;x++){ const i=(y*sw+x)*4; const l=(d[i]+d[i+1]+d[i+2])/3; sum+=l; sumsq+=l*l; }
+      const mean = sum/sw; return sumsq/sw - mean*mean;
+    }
+    function colVariance(x){
+      let sum=0, sumsq=0;
+      for(let y=0;y<sh;y++){ const i=(y*sw+x)*4; const l=(d[i]+d[i+1]+d[i+2])/3; sum+=l; sumsq+=l*l; }
+      const mean = sum/sh; return sumsq/sh - mean*mean;
+    }
+    const VAR_THRESH = 25;
+    let top=0; while(top < sh*0.25 && rowVariance(top) < VAR_THRESH) top++;
+    let bottom=sh-1; while(bottom > sh*0.75 && rowVariance(bottom) < VAR_THRESH) bottom--;
+    let left=0; while(left < sw*0.25 && colVariance(left) < VAR_THRESH) left++;
+    let right=sw-1; while(right > sw*0.75 && colVariance(right) < VAR_THRESH) right--;
+
+    if(top<2 && left<2 && (sh-1-bottom)<2 && (sw-1-right)<2) return null;
+    const scaleX = img.width/sw, scaleY = img.height/sh;
+    const sx = Math.round(left*scaleX), sy = Math.round(top*scaleY);
+    const ex = Math.round((right+1)*scaleX), ey = Math.round((bottom+1)*scaleY);
+    const w = Math.max(10, ex-sx), h = Math.max(10, ey-sy);
+    if(w > img.width*0.98 && h > img.height*0.98) return null;
+    return { x:sx, y:sy, w, h };
+  }
+
+  // Resets a slot's crop/pan/zoom: auto-detects plain borders to trim, then
+  // centers and scales the remaining subject to fill the frame (auto fit).
+  function primeSlot(slot){
+    slot.crop = slot.image ? (computeAutoCrop(slot.image) || { x:0, y:0, w:slot.image.width, h:slot.image.height }) : null;
+    slot.zoom = 1; slot.offsetX = 0; slot.offsetY = 0;
+  }
+
+  function loadImageFile(file, cb){
+    const reader = new FileReader();
+    reader.onload = ev=>{
+      const img = new Image();
+      img.onload = ()=>cb(img);
+      img.src = ev.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+
+  // Percentile-clipped per-channel histogram stretch ("auto levels").
+  function applyAutoEnhance(ctx, w, h){
+    const imgData = ctx.getImageData(0, 0, w, h);
+    const d = imgData.data;
+    const histR = new Uint32Array(256), histG = new Uint32Array(256), histB = new Uint32Array(256);
+    const total = w*h;
+    for(let i=0;i<d.length;i+=4){ histR[d[i]]++; histG[d[i+1]]++; histB[d[i+2]]++; }
+    function bounds(hist){
+      const clip = total*0.01;
+      let lo=0, acc=0; while(lo<255){ acc+=hist[lo]; if(acc>clip) break; lo++; }
+      let hi=255; acc=0; while(hi>0){ acc+=hist[hi]; if(acc>clip) break; hi--; }
+      if(hi<=lo){ lo=0; hi=255; }
+      return [lo,hi];
+    }
+    const [rl,rh]=bounds(histR), [gl,gh]=bounds(histG), [bl,bh]=bounds(histB);
+    function stretch(v,lo,hi){ if(hi<=lo) return v; const t=(v-lo)*255/(hi-lo); return t<0?0:(t>255?255:t); }
+    for(let i=0;i<d.length;i+=4){
+      d[i]   = stretch(d[i],   rl, rh);
+      d[i+1] = stretch(d[i+1], gl, gh);
+      d[i+2] = stretch(d[i+2], bl, bh);
+    }
+    ctx.putImageData(imgData, 0, 0);
+  }
+
+  // Full-canvas luminance-weighted grayscale conversion (ITU-R BT.601),
+  // applied last so background, photo, stamp and border all convert together.
+  function applyGrayscale(ctx, w, h){
+    const imgData = ctx.getImageData(0, 0, w, h);
+    const d = imgData.data;
+    for(let i=0;i<d.length;i+=4){
+      const l = 0.299*d[i] + 0.587*d[i+1] + 0.114*d[i+2];
+      d[i] = d[i+1] = d[i+2] = l;
+    }
+    ctx.putImageData(imgData, 0, 0);
+  }
+
+  /* ---------------------------------------------------------------
+     Editor canvas rendering (single photo, TRUE 300dpi resolution)
+  ----------------------------------------------------------------*/
+  function applyPhotoSizeToCanvas(){
+    const w = mmToPx(state.photoW);
+    const h = mmToPx(state.photoH);
+    if(editorCanvas.width !== w || editorCanvas.height !== h){
+      editorCanvas.width = w;
+      editorCanvas.height = h;
+    }
+    photoResMeta.textContent = `${state.photoW}×${state.photoH}mm · ${w}×${h}px @300dpi`;
+  }
+
+  function renderSlotToCanvas(slot, ctx, w, h){
+    ctx.clearRect(0,0,w,h);
+
+    // 1. background fill
+    ctx.fillStyle = state.bgColor;
+    ctx.fillRect(0,0,w,h);
+
+    // 2. photo (using this slot's own crop / zoom / pan)
+    if(slot.image){
+      const img = slot.image;
+      const crop = slot.crop || { x:0, y:0, w:img.width, h:img.height };
+      const baseScale = Math.max(w/crop.w, h/crop.h) * slot.zoom;
+      const dw = crop.w*baseScale, dh = crop.h*baseScale;
+      const cx = w/2 + slot.offsetX, cy = h/2 + slot.offsetY;
+      ctx.save();
+      ctx.filter = `brightness(${state.brightness}%) contrast(${state.contrast}%) saturate(${state.saturation}%)`;
+      ctx.drawImage(img, crop.x, crop.y, crop.w, crop.h, cx-dw/2, cy-dh/2, dw, dh);
+      ctx.restore();
+      if(state.autoEnhance){
+        applyAutoEnhance(ctx, w, h);
+      }
+    } else {
+      ctx.fillStyle = "rgba(0,0,0,0.35)";
+      ctx.font = `${Math.round(w*0.07)}px system-ui, sans-serif`;
+      ctx.textAlign = "center"; ctx.textBaseline = "middle";
+      ctx.fillText("No photo", w/2, h/2);
+    }
+
+    // 3. stamp text
+    if(state.stampEnabled && state.stampText.trim()){
+      drawStamp(ctx, w, h);
+    }
+
+    // 4. frame border (visual + baked into every printed copy)
+    if(state.cutBorder){
+      ctx.save();
+      ctx.strokeStyle = state.cutBorderColor;
+      const lw = Math.max(1, mmToPx(state.cutBorderWidthMm));
+      ctx.lineWidth = lw;
+      ctx.strokeRect(lw/2, lw/2, w-lw, h-lw);
+      ctx.restore();
+    }
+
+    // 5. black & white conversion (applied last, over the whole composition)
+    if(state.blackAndWhite){
+      applyGrayscale(ctx, w, h);
+    }
+  }
+
+  function renderPhoto(){
+    const w = editorCanvas.width, h = editorCanvas.height;
+    renderSlotToCanvas(activeItem(), editorCtx, w, h);
+    updateQueueIndicator();
+  }
+
+  function updateQueueIndicator(){
+    const cnic = isCnicMode();
+    const isMulti = state.sheetMode === "multi";
+    slotNav.style.display = (cnic || isMulti) ? "flex" : "none";
+    updateUploadUI();
+    if(cnic){
+      ensureCnicGroups();
+      const g = state.cnicGroups[state.cnicActiveGroup];
+      const personLabel = isMulti && state.cnicGroups.length > 1 ? `Card ${state.cnicActiveGroup+1}/${state.cnicGroups.length} · ` : "";
+      slotIndicator.textContent = personLabel + (state.cnicActiveSide === "front" ? "Front" : "Back");
+      repeatInput.value = g ? g.repeat : 1;
+      removeQueueBtn.disabled = !isMulti || state.cnicGroups.length <= 1;
+      addQueueBtn.style.display = isMulti ? "" : "none";
+      removeQueueBtn.style.display = isMulti ? "" : "none";
+      addQueueBtn.textContent = "+ Add new card";
+    } else if(isMulti){
+      slotIndicator.textContent = `${state.activeQueueIndex+1} / ${state.queue.length}`;
+      repeatInput.value = activeItem().repeat;
+      removeQueueBtn.disabled = state.queue.length <= 1;
+      addQueueBtn.style.display = "";
+      removeQueueBtn.style.display = "";
+      addQueueBtn.textContent = "+ Add new";
+    }
+  }
+
+  function updateUploadUI(){
+    const showCnicUpload = isCnicMode();
+    $("genericUploadField").style.display = showCnicUpload ? "none" : "";
+    $("cnicUploadField").style.display = showCnicUpload ? "" : "none";
+    if(showCnicUpload){
+      ensureCnicGroups();
+      const g = state.cnicGroups[state.cnicActiveGroup];
+      $("frontStatus").textContent = (g && g.front.image) ? "Uploaded \u2713" : "Not uploaded";
+      $("backStatus").textContent = (g && g.back.image) ? "Uploaded \u2713" : "Not uploaded";
+    }
+  }
+
+  function drawStamp(ctx,w,h){
+    const stripH = Math.max(state.stampFontSize*1.7, h*0.05);
+    ctx.save();
+    ctx.fillStyle = hexToRgba(state.stampBgColor, state.stampOpacity);
+    ctx.fillRect(0, h-stripH, w, stripH);
+    ctx.fillStyle = state.stampColor;
+    ctx.font = `${state.stampFontSize}px system-ui, sans-serif`;
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillText(state.stampText, w/2, h-stripH/2);
+    ctx.restore();
+  }
+
+  /* ---------------------------------------------------------------
+     Layout calculation
+  ----------------------------------------------------------------*/
+  function computeLayout(){
+    let paperWmm, paperHmm;
+    if(state.paperType === "single"){
+      paperWmm = state.photoW; paperHmm = state.photoH;
+    } else if(state.paperType === "custom"){
+      paperWmm = state.paperCustomW; paperHmm = state.paperCustomH;
+    } else {
+      paperWmm = PAPER_SIZES[state.paperType].w;
+      paperHmm = PAPER_SIZES[state.paperType].h;
+    }
+
+    if(state.paperType !== "single"){
+      let W = Math.min(paperWmm, paperHmm);
+      let H = Math.max(paperWmm, paperHmm);
+      if(state.orientation === "landscape"){ [W,H] = [H,W]; }
+      paperWmm = W; paperHmm = H;
+    }
+
+    const pageWpx = mmToPx(paperWmm);
+    const pageHpx = mmToPx(paperHmm);
+    const photoWpx = mmToPx(state.photoW);
+    const photoHpx = mmToPx(state.photoH);
+
+    let cols, rows, marginPx, gapPx;
+    if(state.paperType === "single"){
+      cols = 1; rows = 1; marginPx = 0; gapPx = 0;
+    } else {
+      marginPx = mmToPx(state.marginMm);
+      gapPx = mmToPx(state.gapMm);
+      const usableW = pageWpx - 2*marginPx;
+      const usableH = pageHpx - 2*marginPx;
+      cols = Math.max(0, Math.floor((usableW + gapPx) / (photoWpx + gapPx)));
+      rows = Math.max(0, Math.floor((usableH + gapPx) / (photoHpx + gapPx)));
+    }
+
+    return { pageWpx, pageHpx, photoWpx, photoHpx, cols, rows, marginPx, gapPx, paperWmm, paperHmm };
+  }
+
+  function drawCropMarksAt(ctx,x,y,cw,ch){
+    const len = mmToPx(state.cropMarkLenMm);
+    ctx.save();
+    ctx.strokeStyle = state.cropMarkColor;
+    ctx.lineWidth = 1;
+    function line(x1,y1,x2,y2){ ctx.beginPath(); ctx.moveTo(x1,y1); ctx.lineTo(x2,y2); ctx.stroke(); }
+    line(x-len, y, x-2, y);           line(x, y-len, x, y-2);
+    line(x+cw+2, y, x+cw+len, y);     line(x+cw, y-len, x+cw, y-2);
+    line(x-len, y+ch, x-2, y+ch);     line(x, y+ch+2, x, y+ch+len);
+    line(x+cw+2, y+ch, x+cw+len, y+ch); line(x+cw, y+ch+2, x+cw, y+ch+len);
+    ctx.restore();
+  }
+
+  function drawFullTrimLines(ctx, pageWpx, pageHpx, cols, rows, startX, startY, photoWpx, photoHpx, gapPx){
+    ctx.save();
+    ctx.strokeStyle = state.trimLineColor;
+    ctx.setLineDash([6,5]);
+    ctx.lineWidth = 1;
+    for(let c=1;c<cols;c++){
+      const gx = startX + c*(photoWpx+gapPx) - gapPx/2;
+      ctx.beginPath(); ctx.moveTo(gx,0); ctx.lineTo(gx,pageHpx); ctx.stroke();
+    }
+    for(let r=1;r<rows;r++){
+      const gy = startY + r*(photoHpx+gapPx) - gapPx/2;
+      ctx.beginPath(); ctx.moveTo(0,gy); ctx.lineTo(pageWpx,gy); ctx.stroke();
+    }
+    ctx.restore();
+  }
+
+  let lastLayout = null;
+  let lastFlat = [];
+  let lastGridGeom = null; // hit-testing info for double-click-to-upload on the sheet preview
+
+  const cnicCanvasPool = {};
+  function getCnicSlotCanvas(gi, side, w, h){
+    if(gi === state.cnicActiveGroup && side === state.cnicActiveSide) return editorCanvas; // already current
+    const key = gi+"-"+side;
+    let c = cnicCanvasPool[key];
+    if(!c){ c = document.createElement("canvas"); cnicCanvasPool[key] = c; }
+    if(c.width !== w || c.height !== h){ c.width = w; c.height = h; }
+    const group = state.cnicGroups[gi];
+    const slot = (group && group[side]) ? group[side] : { image:null, zoom:1, offsetX:0, offsetY:0, crop:null };
+    renderSlotToCanvas(slot, c.getContext("2d"), w, h);
+    return c;
+  }
+  function getQueueCanvas(qi, w, h){
+    if(qi === state.activeQueueIndex) return editorCanvas; // already current
+    let c = queueCanvasPool[qi];
+    if(!c){ c = document.createElement("canvas"); queueCanvasPool[qi] = c; }
+    if(c.width !== w || c.height !== h){ c.width = w; c.height = h; }
+    renderSlotToCanvas(state.queue[qi], c.getContext("2d"), w, h);
+    return c;
+  }
+  function getEmptyCanvas(w, h){
+    if(emptyCanvas.width !== w || emptyCanvas.height !== h){ emptyCanvas.width = w; emptyCanvas.height = h; }
+    renderSlotToCanvas({ image:null, zoom:1, offsetX:0, offsetY:0, crop:null }, emptyCanvas.getContext("2d"), w, h);
+    return emptyCanvas;
+  }
+
+  let totalPages = 1;
+
+  function renderPage(){
+    const layout = computeLayout();
+    lastLayout = layout;
+    const { pageWpx, pageHpx, photoWpx, photoHpx, cols, rows, gapPx, marginPx } = layout;
+
+    pageCanvas.width = pageWpx;
+    pageCanvas.height = pageHpx;
+    const ctx = pageCtx;
+    ctx.fillStyle = "#ffffff";
+    ctx.fillRect(0,0,pageWpx,pageHpx);
+
+    pageResMeta.textContent = `${layout.paperWmm.toFixed(1)}×${layout.paperHmm.toFixed(1)}mm · ${pageWpx}×${pageHpx}px @300dpi`;
+
+    if(cols < 1 || rows < 1){
+      warningBox.hidden = false;
+      warningBox.textContent = "Photo size is too large for the selected paper, margin, and gap settings. Reduce the photo size / margins, or choose a larger paper.";
+      gridReadout.textContent = "0 columns × 0 rows — 0 photos per sheet";
+      pager.style.display = "none";
+      return;
+    }
+
+    const total = cols*rows;
+    updateQueueIndicator();
+
+    const cnic = isCnicMode();
+
+    // Expand the queue into a flat, ordered list of slots (one per copy)
+    let flat = [];
+    if(cnic){
+      ensureCnicGroups();
+      state.cnicGroups.forEach((g, gi)=>{
+        const n = Math.max(0, Math.round(g.repeat) || 0);
+        for(let k=0;k<n;k++){ flat.push({gi, side:"front"}); flat.push({gi, side:"back"}); } // Front, Back, Front, Back…
+      });
+    } else if(state.sheetMode === "multi"){
+      state.queue.forEach((item, qi)=>{
+        const n = Math.max(0, Math.round(item.repeat) || 0);
+        for(let k=0;k<n;k++) flat.push(qi);
+      });
+    }
+
+    totalPages = (cnic || state.sheetMode === "multi") ? Math.max(1, Math.ceil(flat.length/total)) : 1;
+    if(state.currentPage >= totalPages) state.currentPage = totalPages - 1;
+    if(state.currentPage < 0) state.currentPage = 0;
+    const pageOffset = state.currentPage * total;
+
+    if((cnic || state.sheetMode === "multi") && totalPages > 1){
+      pager.style.display = "flex";
+      pageIndicator.textContent = `${state.currentPage+1} / ${totalPages}`;
+    } else {
+      pager.style.display = "none";
+    }
+    warningBox.hidden = true;
+
+    const totalGridW = cols*photoWpx + (cols-1)*gapPx;
+    const totalGridH = rows*photoHpx + (rows-1)*gapPx;
+    const usableW = pageWpx - 2*marginPx, usableH = pageHpx - 2*marginPx;
+
+    let startX;
+    if(state.gridAlignX === "left") startX = marginPx;
+    else if(state.gridAlignX === "right") startX = pageWpx - marginPx - totalGridW;
+    else startX = marginPx + (usableW - totalGridW)/2;
+
+    let startY;
+    if(state.gridAlignY === "top") startY = marginPx;
+    else if(state.gridAlignY === "bottom") startY = pageHpx - marginPx - totalGridH;
+    else startY = marginPx + (usableH - totalGridH)/2;
+
+    lastFlat = flat;
+    lastGridGeom = { startX, startY, cols, rows, photoWpx, photoHpx, gapPx, pageOffset };
+
+    let emptyUsed = false;
+    for(let r=0;r<rows;r++){
+      for(let c=0;c<cols;c++){
+        const cellIdx = r*cols + c;
+        const flatIdx = pageOffset + cellIdx;
+        const x = startX + c*(photoWpx+gapPx);
+        const y = startY + r*(photoHpx+gapPx);
+
+        let srcCanvas;
+        if(cnic){
+          if(flatIdx < flat.length){
+            const slotRef = flat[flatIdx];
+            srcCanvas = getCnicSlotCanvas(slotRef.gi, slotRef.side, photoWpx, photoHpx);
+          } else {
+            srcCanvas = getEmptyCanvas(photoWpx, photoHpx);
+            emptyUsed = true;
+          }
+        } else if(state.sheetMode === "same"){
+          srcCanvas = editorCanvas; // slot 0 in "same" mode, already rendered
+        } else if(flatIdx < flat.length){
+          srcCanvas = getQueueCanvas(flat[flatIdx], photoWpx, photoHpx);
+        } else {
+          srcCanvas = getEmptyCanvas(photoWpx, photoHpx);
+          emptyUsed = true;
+        }
+        ctx.drawImage(srcCanvas, x, y, photoWpx, photoHpx);
+        if(state.cropMarks){
+          drawCropMarksAt(ctx, x, y, photoWpx, photoHpx);
+        }
+      }
+    }
+
+    if(state.trimLines){
+      drawFullTrimLines(ctx, pageWpx, pageHpx, cols, rows, startX, startY, photoWpx, photoHpx, gapPx);
+    }
+
+    if(cnic || state.sheetMode === "multi"){
+      const onThisPage = Math.min(total, Math.max(0, flat.length - pageOffset));
+      gridReadout.textContent = totalPages > 1
+        ? `${cols} × ${rows} = ${total} slots/page — ${flat.length} copies queued across ${totalPages} pages`
+        : `${cols} × ${rows} = ${total} slots — queue fills ${onThisPage}/${total}${emptyUsed ? " (rest left blank)" : ""}`;
+    } else {
+      gridReadout.textContent = state.paperType === "single"
+        ? "Single photo — 1 copy per sheet"
+        : `${cols} columns × ${rows} rows — ${total} photo${total===1?"":"s"} per sheet`;
+    }
+  }
+
+  function fullUpdate(){ applyPhotoSizeToCanvas(); renderPhoto(); renderPage(); }
+  function lightUpdate(){ renderPhoto(); renderPage(); }
+
+  /* ---------------------------------------------------------------
+     UI wiring
+  ----------------------------------------------------------------*/
+  const $ = id => document.getElementById(id);
+
+  // File upload — replaces the active photo ("same" mode, or the item you're
+  // currently viewing in "multi" mode); extra selected files become new queue entries.
+  $("fileInput").addEventListener("change", e=>{
+    const files = Array.from(e.target.files || []);
+    if(!files.length) return;
+
+    if(state.sheetMode === "same"){
+      loadImageFile(files[0], img=>{
+        state.queue[0].image = img;
+        primeSlot(state.queue[0]);
+        state.activeQueueIndex = 0;
+        fullUpdate();
+      });
+    } else {
+      files.forEach((file, i)=>{
+        loadImageFile(file, img=>{
+          let item;
+          if(i === 0){
+            item = activeItem();
+          } else {
+            item = { image:null, repeat:1, zoom:1, offsetX:0, offsetY:0, crop:null };
+            state.queue.push(item);
+            state.activeQueueIndex = state.queue.length - 1;
+          }
+          item.image = img;
+          primeSlot(item);
+          if(i === files.length - 1) fullUpdate(); else lightUpdate();
+        });
+      });
+    }
+    e.target.value = "";
+  });
+
+  $("resetPosBtn").addEventListener("click", ()=>{
+    primeSlot(activeItem());
+    $("zoomSlider").value = 100; $("zoomVal").textContent = "100%";
+    lightUpdate();
+  });
+
+  // Dedicated Front / Back uploads for CNIC — active group's Front/Back slot
+  $("uploadPairBtn").addEventListener("click", ()=> $("cnicPairFileInput").click());
+  $("uploadFrontBtn").addEventListener("click", ()=> $("frontFileInput").click());
+  $("uploadBackBtn").addEventListener("click", ()=> $("backFileInput").click());
+  $("frontFileInput").addEventListener("change", e=>{
+    const file = e.target.files[0];
+    e.target.value = "";
+    if(!file) return;
+    ensureCnicGroups();
+    loadImageFile(file, img=>{
+      const g = state.cnicGroups[state.cnicActiveGroup];
+      g.front.image = img;
+      primeSlot(g.front);
+      state.cnicActiveSide = "front";
+      fullUpdate();
+    });
+  });
+  $("backFileInput").addEventListener("change", e=>{
+    const file = e.target.files[0];
+    e.target.value = "";
+    if(!file) return;
+    ensureCnicGroups();
+    loadImageFile(file, img=>{
+      const g = state.cnicGroups[state.cnicActiveGroup];
+      g.back.image = img;
+      primeSlot(g.back);
+      state.cnicActiveSide = "back";
+      fullUpdate();
+    });
+  });
+  // Combined picker — used for a brand-new card: pick Front + Back together
+  // in one go and they're grouped onto that card automatically.
+  $("cnicPairFileInput").addEventListener("change", e=>{
+    const files = Array.from(e.target.files || []);
+    e.target.value = "";
+    if(!files.length) return;
+    ensureCnicGroups();
+    const g = state.cnicGroups[state.cnicActiveGroup];
+    const frontFile = files[0], backFile = files[1];
+    loadImageFile(frontFile, img=>{
+      g.front.image = img;
+      primeSlot(g.front);
+      state.cnicActiveSide = "front";
+      if(backFile){
+        loadImageFile(backFile, img2=>{
+          g.back.image = img2;
+          primeSlot(g.back);
+          state.cnicActiveSide = "back";
+          fullUpdate();
+        });
+      } else {
+        fullUpdate();
+      }
+    });
+  });
+
+  function updateSheetModeHint(){
+    if(isCnicMode()){
+      $("sheetModeHint").textContent = state.sheetMode === "same"
+        ? "One CNIC (Front + Back) repeated to fill the whole sheet."
+        : "Each card below is a Front + Back pair for one person. The copies count duplicates that pair together — use \u201c+ Add new card\u201d for more people.";
+    } else if(state.sheetMode === "same"){
+      $("sheetModeHint").textContent = "One photo, repeated to fill the sheet.";
+    } else {
+      $("sheetModeHint").textContent = "Add as many photos as you like below, each with its own copy count. Extra pages are added automatically if the total is more than one sheet holds.";
+    }
+  }
+
+  // Sheet mode (same photo everywhere vs a queue of different photos)
+  document.querySelectorAll("[data-sheetmode]").forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+      document.querySelectorAll("[data-sheetmode]").forEach(b=>b.classList.remove("active"));
+      btn.classList.add("active");
+      state.sheetMode = btn.dataset.sheetmode;
+      state.activeQueueIndex = 0;
+      state.currentPage = 0;
+      if(isCnicMode()){
+        ensureCnicGroups();
+        const total = (lastLayout && lastLayout.cols > 0) ? lastLayout.cols*lastLayout.rows : 2;
+        const copies = Math.max(1, Math.floor(total/2));
+        state.cnicGroups.forEach(g=>{ g.repeat = copies; });
+        state.cnicActiveGroup = 0;
+        state.cnicActiveSide = "front";
+      } else if(state.sheetMode === "multi"){
+        const total = (lastLayout && lastLayout.cols > 0) ? lastLayout.cols*lastLayout.rows : 2;
+        if(state.queue.length === 1){
+          state.queue[0].repeat = total; // fill the sheet by default, nothing changes visually yet
+        }
+      }
+      updateSheetModeHint();
+      lightUpdate();
+    });
+  });
+
+  $("pagePrevBtn").addEventListener("click", ()=>{
+    state.currentPage = Math.max(0, state.currentPage - 1);
+    renderPage();
+  });
+  $("pageNextBtn").addEventListener("click", ()=>{
+    state.currentPage = state.currentPage + 1; // clamped inside renderPage
+    renderPage();
+  });
+
+  function cnicStepSlot(dir){
+    ensureCnicGroups();
+    const n = state.cnicGroups.length;
+    let flatIndex = state.cnicActiveGroup*2 + (state.cnicActiveSide === "front" ? 0 : 1);
+    flatIndex = (flatIndex + dir + n*2) % (n*2);
+    state.cnicActiveGroup = Math.floor(flatIndex/2);
+    state.cnicActiveSide = (flatIndex%2===0) ? "front" : "back";
+  }
+  $("prevSlotBtn").addEventListener("click", ()=>{
+    if(isCnicMode()){ cnicStepSlot(-1); }
+    else { state.activeQueueIndex = (state.activeQueueIndex - 1 + state.queue.length) % state.queue.length; }
+    lightUpdate();
+  });
+  $("nextSlotBtn").addEventListener("click", ()=>{
+    if(isCnicMode()){ cnicStepSlot(1); }
+    else { state.activeQueueIndex = (state.activeQueueIndex + 1) % state.queue.length; }
+    lightUpdate();
+  });
+  function currentCopies(){
+    if(isCnicMode()){ ensureCnicGroups(); return state.cnicGroups[state.cnicActiveGroup].repeat; }
+    return activeItem().repeat;
+  }
+  function setRepeat(v){
+    v = clamp(Math.round(v) || 0, 0, 300);
+    if(isCnicMode()){
+      ensureCnicGroups();
+      state.cnicGroups[state.cnicActiveGroup].repeat = v; // this counter duplicates Front+Back of this card together
+    } else {
+      activeItem().repeat = v;
+    }
+    repeatInput.value = v;
+    requestUpdate(lightUpdate);
+  }
+  $("repeatInput").addEventListener("input", e=> setRepeat(parseFloat(e.target.value)));
+  $("repeatMinusBtn").addEventListener("click", ()=> setRepeat(currentCopies() - 1));
+  $("repeatPlusBtn").addEventListener("click", ()=> setRepeat(currentCopies() + 1));
+  $("addQueueBtn").addEventListener("click", ()=>{
+    if(isCnicMode()){
+      if(state.sheetMode !== "multi") return; // "Same" mode is always exactly one card
+      state.cnicGroups.push(newCnicGroup());
+      state.cnicActiveGroup = state.cnicGroups.length - 1;
+      state.cnicActiveSide = "front";
+      lightUpdate();
+      $("cnicPairFileInput").click(); // pick Front + Back together, grouped onto this new card
+      return;
+    }
+    state.queue.push({ image:null, repeat:1, zoom:1, offsetX:0, offsetY:0, crop:null });
+    state.activeQueueIndex = state.queue.length - 1;
+    lightUpdate();
+    $("fileInput").click();
+  });
+  $("removeQueueBtn").addEventListener("click", ()=>{
+    if(isCnicMode()){
+      if(state.sheetMode !== "multi" || state.cnicGroups.length <= 1) return;
+      state.cnicGroups.splice(state.cnicActiveGroup, 1);
+      if(state.cnicActiveGroup >= state.cnicGroups.length) state.cnicActiveGroup = state.cnicGroups.length - 1;
+      state.cnicActiveSide = "front";
+      lightUpdate();
+      return;
+    }
+    if(state.queue.length <= 1) return;
+    state.queue.splice(state.activeQueueIndex, 1);
+    if(state.activeQueueIndex >= state.queue.length) state.activeQueueIndex = state.queue.length - 1;
+    lightUpdate();
+  });
+
+  // Photo size preset
+  const DOC_TYPE_HINTS = {
+    photo: "Standard passport / visa photo sizes below.",
+    cnic: "Prints at true CNIC / ID-card size (85.6 × 54mm) for lamination or record copies. Every CNIC copy needs a Front and a Back photo — upload both below. \u201cSame photo\u201d repeats one card to fill the sheet; \u201cDifferent per slot\u201d lets you add more people, each their own Front+Back card."
+  };
+  function applyCnicPageDefaults(){
+    state.paperType = "a4";
+    state.orientation = "portrait";
+    $("paperType").value = "a4";
+    $("paperCustomGroup").classList.remove("show");
+    $("orientationField").style.display = "";
+    $("marginGapField").style.display = "";
+    $("gridAlignField").style.display = "";
+    document.querySelectorAll("[data-orientation]").forEach(b=>b.classList.toggle("active", b.dataset.orientation==="portrait"));
+  }
+  function syncDocType(){
+    const isCnic = state.photoPresetKey === "cnic";
+    document.querySelectorAll("[data-doctype]").forEach(b=>b.classList.toggle("active", b.dataset.doctype === (isCnic ? "cnic" : "photo")));
+    $("docTypeHint").textContent = DOC_TYPE_HINTS[isCnic ? "cnic" : "photo"];
+    state.currentPage = 0;
+    if(isCnic){
+      ensureCnicGroups();
+      const total = (lastLayout && lastLayout.cols > 0) ? lastLayout.cols*lastLayout.rows : 2;
+      const copies = Math.max(1, Math.floor(total/2));
+      state.cnicGroups.forEach(g=>{ g.repeat = copies; });
+      state.cnicActiveGroup = 0;
+      state.cnicActiveSide = "front";
+    }
+    updateSheetModeHint();
+  }
+
+  $("photoPreset").addEventListener("change", e=>{
+    const wasCnic = isCnicMode();
+    state.photoPresetKey = e.target.value;
+    $("photoCustomGroup").classList.toggle("show", state.photoPresetKey === "custom");
+    if(state.photoPresetKey !== "custom"){
+      const p = PHOTO_PRESETS[state.photoPresetKey];
+      state.photoW = p.w; state.photoH = p.h;
+    } else {
+      state.photoW = parseFloat($("photoCustomW").value) || 35;
+      state.photoH = parseFloat($("photoCustomH").value) || 45;
+    }
+    if(!wasCnic && isCnicMode()){
+      applyCnicPageDefaults();
+    }
+    syncDocType();
+    fullUpdate();
+  });
+  document.querySelectorAll("[data-doctype]").forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+      $("photoPreset").value = btn.dataset.doctype === "cnic" ? "cnic" : "pk";
+      $("photoPreset").dispatchEvent(new Event("change"));
+    });
+  });
+  $("photoCustomW").addEventListener("input", e=>{
+    state.photoW = clamp(parseFloat(e.target.value)||35, 10, 150);
+    if(state.photoPresetKey==="custom") fullUpdate();
+  });
+  $("photoCustomH").addEventListener("input", e=>{
+    state.photoH = clamp(parseFloat(e.target.value)||45, 10, 150);
+    if(state.photoPresetKey==="custom") fullUpdate();
+  });
+
+  // Image adjustment sliders
+  function bindSlider(id, valId, stateKey, suffix, transform){
+    $(id).addEventListener("input", e=>{
+      const raw = parseFloat(e.target.value);
+      state[stateKey] = transform ? transform(raw) : raw;
+      $(valId).textContent = raw + suffix;
+      requestUpdate(lightUpdate);
+    });
+  }
+  $("zoomSlider").addEventListener("input", e=>{
+    const raw = parseFloat(e.target.value);
+    activeItem().zoom = raw/100;
+    $("zoomVal").textContent = raw + "%";
+    requestUpdate(lightUpdate);
+  });
+  bindSlider("brightSlider","brightVal","brightness","%");
+  bindSlider("contrastSlider","contrastVal","contrast","%");
+  bindSlider("satSlider","satVal","saturation","%");
+  $("autoEnhanceToggle").addEventListener("change", e=>{
+    state.autoEnhance = e.target.checked;
+    lightUpdate();
+  });
+  $("bwToggle").addEventListener("change", e=>{
+    state.blackAndWhite = e.target.checked;
+    lightUpdate();
+  });
+
+  // Background swatches
+  document.querySelectorAll(".swatch[data-color]").forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+      document.querySelectorAll(".swatch[data-color]").forEach(b=>b.classList.remove("active"));
+      btn.classList.add("active");
+      state.bgColor = btn.dataset.color;
+      $("bgColorPicker").value = btn.dataset.color;
+      lightUpdate();
+    });
+  });
+  $("bgColorPicker").addEventListener("input", e=>{
+    document.querySelectorAll(".swatch[data-color]").forEach(b=>b.classList.remove("active"));
+    state.bgColor = e.target.value;
+    requestUpdate(lightUpdate);
+  });
+
+  // Stamp
+  $("stampToggle").addEventListener("change", e=>{
+    state.stampEnabled = e.target.checked;
+    $("stampGroup").classList.toggle("show", state.stampEnabled);
+    lightUpdate();
+  });
+  $("stampText").addEventListener("input", e=>{
+    state.stampText = e.target.value;
+    requestUpdate(lightUpdate);
+  });
+  bindSlider("stampFontSlider","stampFontVal","stampFontSize","px");
+  $("stampOpacitySlider").addEventListener("input", e=>{
+    const v = parseFloat(e.target.value);
+    state.stampOpacity = v/100;
+    $("stampOpacityVal").textContent = v + "%";
+    requestUpdate(lightUpdate);
+  });
+  $("stampColor").addEventListener("input", e=>{ state.stampColor = e.target.value; lightUpdate(); });
+  $("stampBgColor").addEventListener("input", e=>{ state.stampBgColor = e.target.value; lightUpdate(); });
+
+  // Cutting & print guides
+  $("cutBorderToggle").addEventListener("change", e=>{
+    state.cutBorder = e.target.checked;
+    $("cutBorderGroup").classList.toggle("show", state.cutBorder);
+    lightUpdate();
+  });
+  $("cutBorderColor").addEventListener("input", e=>{ state.cutBorderColor = e.target.value; lightUpdate(); });
+  $("cutBorderWidth").addEventListener("input", e=>{
+    state.cutBorderWidthMm = parseFloat(e.target.value);
+    $("cutBorderWidthVal").textContent = state.cutBorderWidthMm;
+    requestUpdate(lightUpdate);
+  });
+
+  $("cropMarksToggle").addEventListener("change", e=>{
+    state.cropMarks = e.target.checked;
+    $("cropMarksGroup").classList.toggle("show", state.cropMarks);
+    lightUpdate();
+  });
+  $("cropMarkColor").addEventListener("input", e=>{ state.cropMarkColor = e.target.value; lightUpdate(); });
+  $("cropMarkLen").addEventListener("input", e=>{
+    state.cropMarkLenMm = parseFloat(e.target.value);
+    $("cropMarkLenVal").textContent = state.cropMarkLenMm;
+    requestUpdate(lightUpdate);
+  });
+
+  $("trimLinesToggle").addEventListener("change", e=>{
+    state.trimLines = e.target.checked;
+    $("trimLinesGroup").classList.toggle("show", state.trimLines);
+    lightUpdate();
+  });
+  $("trimLineColor").addEventListener("input", e=>{ state.trimLineColor = e.target.value; lightUpdate(); });
+
+  // Page setup
+  $("paperType").addEventListener("change", e=>{
+    state.paperType = e.target.value;
+    $("paperCustomGroup").classList.toggle("show", state.paperType === "custom");
+    const isSingle = state.paperType === "single";
+    $("orientationField").style.display = isSingle ? "none" : "";
+    $("marginGapField").style.display = isSingle ? "none" : "";
+    $("gridAlignField").style.display = isSingle ? "none" : "";
+    lightUpdate();
+  });
+  $("paperCustomW").addEventListener("input", e=>{ state.paperCustomW = parseFloat(e.target.value)||152.4; lightUpdate(); });
+  $("paperCustomH").addEventListener("input", e=>{ state.paperCustomH = parseFloat(e.target.value)||101.6; lightUpdate(); });
+
+  document.querySelectorAll("[data-orientation]").forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+      document.querySelectorAll("[data-orientation]").forEach(b=>b.classList.remove("active"));
+      btn.classList.add("active");
+      state.orientation = btn.dataset.orientation;
+      lightUpdate();
+    });
+  });
+
+  $("marginSlider").addEventListener("input", e=>{
+    state.marginMm = parseFloat(e.target.value);
+    $("marginVal").textContent = state.marginMm;
+    requestUpdate(lightUpdate);
+  });
+  $("gapSlider").addEventListener("input", e=>{
+    state.gapMm = parseFloat(e.target.value);
+    $("gapVal").textContent = state.gapMm;
+    requestUpdate(lightUpdate);
+  });
+
+  document.querySelectorAll("[data-alignx]").forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+      document.querySelectorAll("[data-alignx]").forEach(b=>b.classList.remove("active"));
+      btn.classList.add("active");
+      state.gridAlignX = btn.dataset.alignx;
+      lightUpdate();
+    });
+  });
+  document.querySelectorAll("[data-aligny]").forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+      document.querySelectorAll("[data-aligny]").forEach(b=>b.classList.remove("active"));
+      btn.classList.add("active");
+      state.gridAlignY = btn.dataset.aligny;
+      lightUpdate();
+    });
+  });
+
+  /* ---------------------------------------------------------------
+     Canvas drag & zoom interaction
+  ----------------------------------------------------------------*/
+  function getCanvasPoint(e, canvas){
+    const rect = canvas.getBoundingClientRect();
+    const scaleX = canvas.width / rect.width;
+    const scaleY = canvas.height / rect.height;
+    return { x:(e.clientX-rect.left)*scaleX, y:(e.clientY-rect.top)*scaleY };
+  }
+
+  let dragging = false, dragStart = null, startOffset = null;
+
+  editorCanvas.addEventListener("pointerdown", e=>{
+    if(!activeItem().image) return;
+    dragging = true;
+    editorCanvas.setPointerCapture(e.pointerId);
+    dragStart = getCanvasPoint(e, editorCanvas);
+    startOffset = { x:activeItem().offsetX, y:activeItem().offsetY };
+  });
+  editorCanvas.addEventListener("pointermove", e=>{
+    if(!dragging) return;
+    const p = getCanvasPoint(e, editorCanvas);
+    activeItem().offsetX = startOffset.x + (p.x - dragStart.x);
+    activeItem().offsetY = startOffset.y + (p.y - dragStart.y);
+    requestUpdate(lightUpdate);
+  });
+  ["pointerup","pointercancel","pointerleave"].forEach(evt=>{
+    editorCanvas.addEventListener(evt, ()=>{ dragging = false; });
+  });
+
+  // Tap/click the empty "No photo" frame to upload straight away — for a
+  // brand-new CNIC card with nothing on either side yet, offer to pick
+  // Front + Back together; otherwise fill in whichever side is missing.
+  editorCanvas.addEventListener("click", ()=>{
+    const item = activeItem();
+    if(item && item.image) return; // has a photo — click is for dragging, not uploading
+    if(isCnicMode()){
+      ensureCnicGroups();
+      const g = state.cnicGroups[state.cnicActiveGroup];
+      if(g && !g.front.image && !g.back.image){
+        $("cnicPairFileInput").click();
+      } else if(state.cnicActiveSide === "front"){
+        $("frontFileInput").click();
+      } else {
+        $("backFileInput").click();
+      }
+    } else {
+      $("fileInput").click();
+    }
+  });
+
+  // Double-click a frame directly on the sheet preview to add/replace its photo
+  function pickCellForUpload(flatIdx){
+    if(!isCnicMode() && state.sheetMode === "same"){
+      $("fileInput").click(); // single photo repeated everywhere — any frame edits that one photo
+      return;
+    }
+    if(!lastFlat || flatIdx < 0 || flatIdx >= lastFlat.length) return;
+    if(isCnicMode()){
+      const {gi, side} = lastFlat[flatIdx];
+      ensureCnicGroups();
+      state.cnicActiveGroup = gi;
+      state.cnicActiveSide = side;
+      lightUpdate();
+      const g = state.cnicGroups[gi];
+      if(g && !g.front.image && !g.back.image){
+        $("cnicPairFileInput").click();
+      } else {
+        (side==="front" ? $("frontFileInput") : $("backFileInput")).click();
+      }
+    } else if(state.sheetMode === "multi"){
+      const qi = lastFlat[flatIdx];
+      state.activeQueueIndex = qi;
+      lightUpdate();
+      $("fileInput").click();
+    }
+  }
+  pageCanvas.addEventListener("dblclick", e=>{
+    if(!lastGridGeom) return;
+    const { startX, startY, cols, rows, photoWpx, photoHpx, gapPx, pageOffset } = lastGridGeom;
+    const rect = pageCanvas.getBoundingClientRect();
+    const scaleX = pageCanvas.width / rect.width;
+    const scaleY = pageCanvas.height / rect.height;
+    const px = (e.clientX - rect.left) * scaleX;
+    const py = (e.clientY - rect.top) * scaleY;
+    for(let r=0;r<rows;r++){
+      for(let c=0;c<cols;c++){
+        const x = startX + c*(photoWpx+gapPx);
+        const y = startY + r*(photoHpx+gapPx);
+        if(px>=x && px<=x+photoWpx && py>=y && py<=y+photoHpx){
+          pickCellForUpload(pageOffset + r*cols + c);
+          return;
+        }
+      }
+    }
+  });
+  pageCanvas.title = "Double-click a frame to add or replace its photo";
+  pageCanvas.style.cursor = "pointer";
+
+  editorCanvas.addEventListener("wheel", e=>{
+    if(!activeItem().image) return;
+    e.preventDefault();
+    const factor = 1 - e.deltaY * 0.001;
+    activeItem().zoom = clamp(activeItem().zoom * factor, 0.5, 4);
+    $("zoomSlider").value = Math.round(activeItem().zoom*100);
+    $("zoomVal").textContent = Math.round(activeItem().zoom*100) + "%";
+    requestUpdate(lightUpdate);
+  }, { passive:false });
+
+  /* ---------------------------------------------------------------
+     PNG DPI metadata injection (pHYs chunk)
+  ----------------------------------------------------------------*/
+  let crcTable = null;
+  function crc32(buf){
+    if(!crcTable){
+      crcTable = new Uint32Array(256);
+      for(let n=0;n<256;n++){
+        let c = n;
+        for(let k=0;k<8;k++){ c = (c & 1) ? (0xEDB88320 ^ (c >>> 1)) : (c >>> 1); }
+        crcTable[n] = c;
+      }
+    }
+    let crc = 0xFFFFFFFF;
+    for(let i=0;i<buf.length;i++){
+      crc = crcTable[(crc ^ buf[i]) & 0xFF] ^ (crc >>> 8);
+    }
+    return (crc ^ 0xFFFFFFFF) >>> 0;
+  }
+  function writeUint32(buf, offset, val){
+    buf[offset]   = (val >>> 24) & 255;
+    buf[offset+1] = (val >>> 16) & 255;
+    buf[offset+2] = (val >>> 8) & 255;
+    buf[offset+3] = val & 255;
+  }
+  function readUint32(buf, offset){
+    return ((buf[offset]<<24) | (buf[offset+1]<<16) | (buf[offset+2]<<8) | buf[offset+3]) >>> 0;
+  }
+  async function injectPngDpi(blob, dpi){
+    const buf = new Uint8Array(await blob.arrayBuffer());
+    const ihdrLength = readUint32(buf, 8);
+    const ihdrChunkTotal = 4+4+ihdrLength+4;
+    const insertPos = 8 + ihdrChunkTotal;
+
+    const pixelsPerMeter = Math.round(dpi / 0.0254);
+    const physData = new Uint8Array(9);
+    writeUint32(physData, 0, pixelsPerMeter);
+    writeUint32(physData, 4, pixelsPerMeter);
+    physData[8] = 1;
+
+    const typeBytes = new TextEncoder().encode("pHYs");
+    const crcInput = new Uint8Array(4+9);
+    crcInput.set(typeBytes,0); crcInput.set(physData,4);
+    const crcVal = crc32(crcInput);
+
+    const chunk = new Uint8Array(4+4+9+4);
+    writeUint32(chunk,0,9);
+    chunk.set(typeBytes,4);
+    chunk.set(physData,8);
+    writeUint32(chunk,17,crcVal);
+
+    const out = new Uint8Array(buf.length + chunk.length);
+    out.set(buf.subarray(0,insertPos),0);
+    out.set(chunk, insertPos);
+    out.set(buf.subarray(insertPos), insertPos+chunk.length);
+    return new Blob([out], { type:"image/png" });
+  }
+
+  /* ---------------------------------------------------------------
+     Download / Print
+  ----------------------------------------------------------------*/
+  function canvasToBlobP(canvas){
+    return new Promise(res => canvas.toBlob(res, "image/png"));
+  }
+
+  async function collectAllPagePngBlobs(){
+    const originalPage = state.currentPage;
+    renderPage(); // refresh totalPages for current state
+    const pages = totalPages;
+    const blobs = [];
+    for(let p=0;p<pages;p++){
+      state.currentPage = p;
+      renderPage();
+      const blob = await canvasToBlobP(pageCanvas);
+      blobs.push(await injectPngDpi(blob, DPI));
+    }
+    state.currentPage = originalPage;
+    renderPage();
+    return blobs;
+  }
+
+  // Minimal, dependency-free PDF writer: one page per sheet, each page is a
+  // full-bleed 300dpi JPEG (embedded via the PDF's built-in DCTDecode filter,
+  // so no external library or JS-side JPEG decoding is needed).
+  async function buildPdfBlob(){
+    const originalPage = state.currentPage;
+    renderPage();
+    const pages = totalPages;
+    const ptPerMm = 72/25.4;
+
+    const enc = new TextEncoder();
+    const parts = [];
+    let pos = 0;
+    const objOffsets = [];
+    function addBytes(bytes){ parts.push(bytes); pos += bytes.length; }
+    function addStr(str){ addBytes(enc.encode(str)); }
+    function beginObj(num){ objOffsets[num] = pos; addStr(num+" 0 obj\n"); }
+    function endObj(){ addStr("endobj\n"); }
+
+    const pageObjNums=[], contentObjNums=[], imageObjNums=[];
+    let nextObj = 3;
+    for(let i=0;i<pages;i++){
+      pageObjNums.push(nextObj++);
+      contentObjNums.push(nextObj++);
+      imageObjNums.push(nextObj++);
+    }
+    const totalObjs = nextObj-1;
+
+    addStr("%PDF-1.4\n");
+
+    beginObj(1);
+    addStr("<< /Type /Catalog /Pages 2 0 R >>\n");
+    endObj();
+
+    beginObj(2);
+    addStr(`<< /Type /Pages /Kids [ ${pageObjNums.map(n=>n+" 0 R").join(" ")} ] /Count ${pages} >>\n`);
+    endObj();
+
+    for(let i=0;i<pages;i++){
+      state.currentPage = i;
+      renderPage();
+      const layout = lastLayout;
+      const pageWpt = (layout.paperWmm * ptPerMm).toFixed(2);
+      const pageHpt = (layout.paperHmm * ptPerMm).toFixed(2);
+      const wpx = pageCanvas.width, hpx = pageCanvas.height;
+      const blob = await new Promise(res=> pageCanvas.toBlob(res, "image/jpeg", 0.95));
+      const jpegBytes = new Uint8Array(await blob.arrayBuffer());
+
+      beginObj(pageObjNums[i]);
+      addStr(`<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${pageWpt} ${pageHpt}] /Resources << /XObject << /Im0 ${imageObjNums[i]} 0 R >> >> /Contents ${contentObjNums[i]} 0 R >>\n`);
+      endObj();
+
+      const content = `q ${pageWpt} 0 0 ${pageHpt} 0 0 cm /Im0 Do Q`;
+      const contentBytes = enc.encode(content);
+      beginObj(contentObjNums[i]);
+      addStr(`<< /Length ${contentBytes.length} >>\nstream\n`);
+      addBytes(contentBytes);
+      addStr("\nendstream\n");
+      endObj();
+
+      beginObj(imageObjNums[i]);
+      addStr(`<< /Type /XObject /Subtype /Image /Width ${wpx} /Height ${hpx} /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ${jpegBytes.length} >>\nstream\n`);
+      addBytes(jpegBytes);
+      addStr("\nendstream\n");
+      endObj();
+    }
+
+    state.currentPage = originalPage;
+    renderPage();
+
+    const xrefStart = pos;
+    addStr("xref\n");
+    addStr(`0 ${totalObjs+1}\n`);
+    addStr("0000000000 65535 f \n");
+    for(let n=1;n<=totalObjs;n++){
+      addStr((objOffsets[n]||0).toString().padStart(10,"0")+" 00000 n \n");
+    }
+    addStr(`trailer\n<< /Size ${totalObjs+1} /Root 1 0 R >>\nstartxref\n${xrefStart}\n%%EOF`);
+
+    const totalLen = parts.reduce((s,p)=>s+p.length,0);
+    const out = new Uint8Array(totalLen);
+    let o=0;
+    for(const p of parts){ out.set(p,o); o+=p.length; }
+    return new Blob([out], { type:"application/pdf" });
+  }
+
+  $("downloadPdfBtn").addEventListener("click", async ()=>{
+    const btn = $("downloadPdfBtn");
+    const original = btn.textContent;
+    btn.disabled = true; btn.textContent = "Building PDF\u2026";
+    try{
+      const blob = await buildPdfBlob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `passport-photos-${Date.now()}.pdf`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(()=>URL.revokeObjectURL(url), 4000);
+    } finally {
+      btn.disabled = false; btn.textContent = original;
+    }
+  });
+
+  $("downloadBtn").addEventListener("click", async ()=>{
+    const blobs = await collectAllPagePngBlobs();
+    const stamp = Date.now();
+    for(let i=0;i<blobs.length;i++){
+      const url = URL.createObjectURL(blobs[i]);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = blobs.length > 1
+        ? `passport-photos-${stamp}-page${i+1}-of-${blobs.length}.png`
+        : `passport-photos-${stamp}.png`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(()=>URL.revokeObjectURL(url), 4000);
+      if(i < blobs.length-1) await new Promise(r=>setTimeout(r, 350));
+    }
+  });
+
+  function printSheet(){
+    const layout = lastLayout || computeLayout();
+    if(layout.cols < 1 || layout.rows < 1) return;
+
+    const originalPage = state.currentPage;
+    renderPage();
+    const pages = totalPages;
+    const mmW = layout.paperWmm, mmH = layout.paperHmm;
+    const urls = [];
+    for(let p=0;p<pages;p++){
+      state.currentPage = p;
+      renderPage();
+      urls.push(pageCanvas.toDataURL("image/png"));
+    }
+    state.currentPage = originalPage;
+    renderPage();
+
+    let iframe = document.getElementById("printFrame");
+    if(!iframe){
+      iframe = document.createElement("iframe");
+      iframe.id = "printFrame";
+      iframe.style.cssText = "position:fixed;right:0;bottom:0;width:0;height:0;border:0;";
+      document.body.appendChild(iframe);
+    }
+    const doc = iframe.contentWindow.document;
+    doc.open();
+    const imgsHtml = urls.map((u,i)=>
+      `<img class="ppg" src="${u}"${i < urls.length-1 ? ' style="page-break-after:always;"' : ''}>`
+    ).join("");
+    doc.write(`<!DOCTYPE html><html><head><title>Print</title><style>
+      @page{ size:${mmW}mm ${mmH}mm; margin:0; }
+      html,body{ margin:0; padding:0; }
+      img.ppg{ display:block; width:${mmW}mm; height:${mmH}mm; }
+    </style></head><body>${imgsHtml}</body></html>`);
+    doc.close();
+
+    const imgEls = Array.from(doc.querySelectorAll("img.ppg"));
+    let loaded = 0;
+    function checkDone(){
+      loaded++;
+      if(loaded >= imgEls.length){
+        setTimeout(()=>{ iframe.contentWindow.focus(); iframe.contentWindow.print(); }, 150);
+      }
+    }
+    imgEls.forEach(im=>{ im.complete ? checkDone() : (im.onload = checkDone); });
+  }
+  $("printBtn").addEventListener("click", printSheet);
+
+  document.addEventListener("keydown", e=>{
+    if((e.ctrlKey || e.metaKey) && (e.key === "p" || e.key === "P")){
+      e.preventDefault();
+      printSheet();
+    }
+  });
+
+  /* ---------------------------------------------------------------
+     Reset all
+  ----------------------------------------------------------------*/
+  $("resetAllBtn").addEventListener("click", ()=>{
+    if(!confirm("Reset all settings to defaults? Your current photo will be kept.")) return;
+    const keepImg = activeItem().image;
+    const keepCrop = activeItem().crop;
+
+    Object.assign(state, {
+      sheetMode:"same",
+      queue:[ { image:keepImg, repeat:1, zoom:1, offsetX:0, offsetY:0, crop:keepCrop } ],
+      activeQueueIndex:0,
+      cnicGroups:[ newCnicGroup() ],
+      cnicActiveGroup:0,
+      cnicActiveSide:"front",
+      brightness:100, contrast:100, saturation:100, autoEnhance:false, blackAndWhite:false,
+      bgColor:"#87CEEB",
+      stampEnabled:false, stampText:"", stampFontSize:22, stampOpacity:0.75,
+      stampColor:"#000000", stampBgColor:"#ffffff",
+      cutBorder:true, cutBorderColor:"#999999", cutBorderWidthMm:0.3,
+      cropMarks:false, cropMarkColor:"#000000", cropMarkLenMm:4,
+      trimLines:false, trimLineColor:"#bbbbbb",
+      photoPresetKey:"pk", photoW:35, photoH:45,
+      paperType:"4x6", paperCustomW:152.4, paperCustomH:101.6,
+      orientation:"portrait", marginMm:5, gapMm:3,
+      gridAlignX:"center", gridAlignY:"middle",
+      currentPage:0
+    });
+
+    // Sync every control's displayed value back to the reset defaults
+    document.querySelectorAll("[data-sheetmode]").forEach(b=>b.classList.toggle("active", b.dataset.sheetmode==="same"));
+    $("sheetModeHint").textContent = "One photo, repeated to fill the sheet.";
+    $("photoPreset").value = "pk";
+    $("photoCustomGroup").classList.remove("show");
+    syncDocType();
+    $("zoomSlider").value = 100; $("zoomVal").textContent = "100%";
+    $("repeatInput").value = 1;
+    $("brightSlider").value = 100; $("brightVal").textContent = "100%";
+    $("contrastSlider").value = 100; $("contrastVal").textContent = "100%";
+    $("satSlider").value = 100; $("satVal").textContent = "100%";
+    $("autoEnhanceToggle").checked = false;
+    $("bwToggle").checked = false;
+    document.querySelectorAll(".swatch[data-color]").forEach(b=>b.classList.toggle("active", b.dataset.color==="#87CEEB"));
+    $("bgColorPicker").value = "#87CEEB";
+    $("stampToggle").checked = false; $("stampGroup").classList.remove("show");
+    $("stampText").value = ""; $("stampFontSlider").value = 22; $("stampFontVal").textContent = "22px";
+    $("stampOpacitySlider").value = 75; $("stampOpacityVal").textContent = "75%";
+    $("stampColor").value = "#000000"; $("stampBgColor").value = "#ffffff";
+    $("cutBorderToggle").checked = true; $("cutBorderGroup").classList.add("show");
+    $("cutBorderColor").value = "#999999"; $("cutBorderWidth").value = 0.3; $("cutBorderWidthVal").textContent = "0.3";
+    $("cropMarksToggle").checked = false; $("cropMarksGroup").classList.remove("show");
+    $("cropMarkColor").value = "#000000"; $("cropMarkLen").value = 4; $("cropMarkLenVal").textContent = "4";
+    $("trimLinesToggle").checked = false; $("trimLinesGroup").classList.remove("show");
+    $("trimLineColor").value = "#bbbbbb";
+    $("paperType").value = "4x6"; $("paperCustomGroup").classList.remove("show");
+    $("orientationField").style.display = ""; $("marginGapField").style.display = ""; $("gridAlignField").style.display = "";
+    document.querySelectorAll("[data-orientation]").forEach(b=>b.classList.toggle("active", b.dataset.orientation==="portrait"));
+    $("marginSlider").value = 5; $("marginVal").textContent = "5";
+    $("gapSlider").value = 3; $("gapVal").textContent = "3";
+    document.querySelectorAll("[data-alignx]").forEach(b=>b.classList.toggle("active", b.dataset.alignx==="center"));
+    document.querySelectorAll("[data-aligny]").forEach(b=>b.classList.toggle("active", b.dataset.aligny==="middle"));
+
+    fullUpdate();
+  });
+
+  /* ---------------------------------------------------------------
+     Initial render
+  ----------------------------------------------------------------*/
+  fullUpdate();
+})();
+</script>
+</body>
+</html>
